@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	domElems.createRoomCode.addEventListener('click', e => {
 		port.postMessage({type: SocketCodes.REQUEST_CODE});
 	});
+	
+	port.postMessage({type: SocketCodes.RELAY_FROM_BACKGROUND, property: 'code'})
 }, false);
 
 port.onMessage.addListener(msg => {
