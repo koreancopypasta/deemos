@@ -51,6 +51,30 @@ function DeemosInstance() {
 }
 DeemosInstance.prototype.initWS = function (wss) {
 	this.wss = wss;
+	this.wss.on('connection', (ws, req) => {
+		ws.isAlive = true;
+		
+		ws.on('pong', () => ws.isAlive = true);
+		
+		ws.on('error', (e) => {});
+		
+		let pongInterval = setInterval(() => {
+			wss.clients.forEach(ws => {
+				if (ws.isAlive === false) return ws.terminate();
+				
+				ws.isAlive = false;
+				ws.ping('', false, true);
+			});
+		}, 30000);
+		
+		ws.on('close', () => {
+			// TODO Perform cleanup here.
+		});
+		
+		ws.on('message', data => {
+			// TODO handle messages here.
+		});
+	});
 };
 
 module.exports = DeemosInstance;
