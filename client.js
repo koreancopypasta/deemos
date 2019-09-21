@@ -9,7 +9,7 @@ const ViewManager = require('./view_manager');
 ViewManager.addView('join_view');
 ViewManager.addView('inside_view');
 
-ViewManager.setView('join_view');
+ViewManager.setView('inside_view');
 
 const ws = new WebSocket(getWS('/'));
 
@@ -59,7 +59,7 @@ searchButton.addEventListener("click", e => {
 		}
 	};
 	xhr.open("GET",
-		"https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&q="
+		"https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&maxResults=20&q="
 		+encodeURIComponent(searchBar.value), true);
 	xhr.send();
 });

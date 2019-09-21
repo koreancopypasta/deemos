@@ -26,6 +26,10 @@
 		.searchPad {
 			margin-top:5%;
 		}
+		.overflow{
+			overflow-y:scroll;
+			height:600px;
+		}
     	</style>
 	</head>
 
@@ -49,7 +53,7 @@
 				<h2>Search</h2>
 				<input type="text" name="search_bar" id="search_bar" placeholder="Search" />
 				<button id="search_enter">Go</button>
-				<div id="search_results">
+				<div id="search_results" class="overflow">
 					<!-- <div data-video-id="thevideoid">Video title<img src="thumbnail.png" /></div> -->
 				</div>
 			</div>
