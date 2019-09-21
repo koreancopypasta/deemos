@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+	<head>
+		<title>Deemos</title>
+		<style>
+			body {
+				font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+				font-size: 100%;
+				min-width: 500px;
+			}
+			
+			.form-control {
+				margin-bottom: 15px;
+			}
+			
+			.img-responsive {
+				margin: 0 auto;
+			}
+			
+			.row {
+				text-align: center;
+			}
+		</style>
+		<script src="js/main.js"></script>
+	</head>
+	<body>
+		<div id="create_code_view">
+		    <div class = "row">
+				<h3>Deemos</h3>
+		    </div>
+		    <button type="button" id="create_room_code">Create Room Code</button>
+		</div>
+		<div id="current_code_view">
+			<div class = "row">
+				<h3>Deemos</h3>
+			</div>
+			<div class = "row">
+				Your current code is <span id="current_code"></span>
+			</div>
+		</div>
+	</body>
+</html>
