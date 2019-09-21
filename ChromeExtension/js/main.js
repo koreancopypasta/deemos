@@ -5,16 +5,36 @@
 
 
 const SocketCodes = require('./socket_codes');
+const ViewManager = require('./view_manager');
+
+let domElems = {};
+
+let port = chrome.runtime.connect({name: "Deemos"});
 
 document.addEventListener('DOMContentLoaded', () => {
-	let createRoomCode = document.getElementById('create_room_code');
+	ViewManager.addView('create_code_view');
+	ViewManager.addView('current_code_view');
+	ViewManager.setView('create_code_view');
 	
-	createRoomCode.addEventListener('click', e => {
-		chrome.runtime.sendMessage({type: SocketCodes.REQUEST_CODE});
+	domElems.createRoomCode = document.getElementById('create_room_code');
+	domElems.currentCode = document.getElementById('current_code');
+	
+	domElems.createRoomCode.addEventListener('click', e => {
+		port.postMessage({type: SocketCodes.REQUEST_CODE});
 	});
 }, false);
 
-},{"./socket_codes":2}],2:[function(require,module,exports){
+port.onMessage.addListener(msg => {
+	alert(msg);
+	switch (msg.type) {
+		case SocketCodes.REQUEST_CODE:
+			domElems.currentCode.textContent = msg.code;
+			ViewManager.setView('current_code_view');
+			break;
+	}
+});
+
+},{"./socket_codes":2,"./view_manager":3}],2:[function(require,module,exports){
 /**
  * @author Landmaster
  */
@@ -22,6 +42,40 @@ document.addEventListener('DOMContentLoaded', () => {
 module.exports = {
 	REQUEST_CODE: 'REQUEST_CODE', // code
 	JOIN_SERVER: 'JOIN_SERVER', // code
-	EVICT: 'EVICT' // reason
+	EVICT: 'EVICT', // reason
+	//RELAY_FROM_BACKGROUND: 'RELAY_FROM_BACKGROUND', // property, value?
 };
+},{}],3:[function(require,module,exports){
+/**
+ * @author Landmaster
+ */
+
+/**
+ *
+ * @type {Map<string, Element>}
+ */
+const viewMap = new Map();
+
+const viewToLinkID = new Map();
+
+const ViewManager = {};
+ViewManager.addView = function (viewID) {
+	viewMap.set(viewID, document.getElementById(viewID));
+};
+ViewManager.setView = function (viewID) {
+	for ([id, view] of viewMap) {
+		if (id === viewID || (viewToLinkID.has(id) && viewToLinkID.has(viewID) && viewToLinkID.get(id) === viewToLinkID.get(viewID))) {
+			view.style.display = '';
+		} else {
+			view.style.display = 'none';
+		}
+	}
+};
+ViewManager.linkViews = function (cname, ...viewIDs) {
+	for (let viewID of viewIDs) {
+		viewToLinkID.set(viewID, viewIDs);
+		viewMap.get(viewID).classList.add(cname);
+	}
+};
+module.exports = ViewManager;
 },{}]},{},[1]);

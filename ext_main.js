@@ -4,11 +4,30 @@
 
 
 const SocketCodes = require('./socket_codes');
+const ViewManager = require('./view_manager');
+
+let domElems = {};
+
+let port = chrome.runtime.connect({name: "Deemos"});
 
 document.addEventListener('DOMContentLoaded', () => {
-	let createRoomCode = document.getElementById('create_room_code');
+	ViewManager.addView('create_code_view');
+	ViewManager.addView('current_code_view');
+	ViewManager.setView('create_code_view');
 	
-	createRoomCode.addEventListener('click', e => {
-		chrome.runtime.sendMessage({type: SocketCodes.REQUEST_CODE});
+	domElems.createRoomCode = document.getElementById('create_room_code');
+	domElems.currentCode = document.getElementById('current_code');
+	
+	domElems.createRoomCode.addEventListener('click', e => {
+		port.postMessage({type: SocketCodes.REQUEST_CODE});
 	});
 }, false);
+
+port.onMessage.addListener(msg => {
+	switch (msg.type) {
+		case SocketCodes.REQUEST_CODE:
+			domElems.currentCode.textContent = msg.code;
+			ViewManager.setView('current_code_view');
+			break;
+	}
+});
