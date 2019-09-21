@@ -2,6 +2,10 @@
  * @author Landmaster
  */
 
+const SocketCodes = require('./socket_codes');
+const MapUtils = require('./map_utils');
+const MemberInfo = require('./member_info');
+
 function Session(options) {
 	this.host = options.host;
 	this.code = options.code;
@@ -18,10 +22,13 @@ function Session(options) {
 	 */
 	this.votes = new Map();
 }
-Session.prototype.addMember = function (ws) { this.members.add(ws); };
+Session.prototype.addMember = function (ws) { this.members.set(ws, new MemberInfo({ws: ws})); };
 Session.prototype.addRequest = function (member, videoReq) {
 	if (member.videoRequest != null) {
 		this.resetVote(member, videoReq);
+		if (this.votes.has(videoReq) && this.votes.get(videoReq) <= 0) {
+			this.votes.delete(videoReq);
+		}
 	}
 	member.videoRequest = videoReq;
 	this.vote(member, videoReq, 1);
@@ -46,6 +53,9 @@ Session.prototype.evictMember = function (member) {
 	for (let video of member.votes.keys()) {
 		this.resetVote(member, video);
 	}
+	if (this.votes.has(member.videoRequest) && this.votes.get(member.videoRequest) <= 0) {
+		this.votes.delete(member.videoRequest);
+	}
 	this.members.delete(member.ws);
 };
 Session.prototype.advanceVideo = function () {
@@ -66,6 +76,12 @@ Session.prototype.advanceVideo = function () {
 		this.votes.delete(winningVideo);
 	}
 	return winningVideo;
+};
+Session.prototype.sendVoteUpdates = function (member) {
+	member.ws.send(JSON.stringify({
+		type: SocketCodes.VOTE_UPDATES,
+		votes: MapUtils.toObject(member.votes),
+		memberVotes: MapUtils.toObject(member.votes)}));
 };
 
 module.exports = Session;

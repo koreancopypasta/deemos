@@ -11,6 +11,8 @@ ViewManager.addView('inside_view');
 
 ViewManager.setView('join_view');
 
+let code = undefined;
+
 const ws = new WebSocket(getWS('/'));
 
 let searchBar = document.getElementById("search_bar");
@@ -31,7 +33,7 @@ searchButton.addEventListener("click", e => {
 			let jsonResult = JSON.parse(xhr.responseText);
 			for (let item of jsonResult.items) {
 				
-				console.log("youtube search results...")
+				console.log("youtube search results...");
 				console.log(item);
 				
 				let newDiv = document.createElement("div");
@@ -41,7 +43,7 @@ searchButton.addEventListener("click", e => {
 				newDiv.className = "row searchPad";
 
 				let newText = document.createElement("div");
-				newText.className = "col-sm"
+				newText.className = "col-sm";
 				newText.innerHTML = item.snippet.title;
 
 				newDiv.appendChild(newText);
@@ -53,6 +55,9 @@ searchButton.addEventListener("click", e => {
 				// image.className = "col-sm"
 
 				newDiv.appendChild(image);
+				newDiv.addEventListener('click', () => {
+					ws.send(JSON.stringify({type: SocketCodes.VIDEO_REQUEST, videoId: newDiv.dataset.videoId, code: code}));
+				});
 
 				searchResults.appendChild(newDiv);
 			}
@@ -82,11 +87,17 @@ ws.addEventListener("message", e => {
 	switch (obj.type) {
 		case SocketCodes.JOIN_SERVER:
 			ViewManager.setView('inside_view');
-			// TODO more initialization?
+			code = obj.code;
 			break;
 		case SocketCodes.EVICT:
 			ViewManager.setView('join_view');
+			code = undefined;
 			alert(obj.reason);
+			break;
+		case SocketCodes.VOTE_UPDATES:
+			console.log(obj.votes);
+			console.log(obj.memberVotes);
+			// TODO render this properly
 			break;
 	}
 });
