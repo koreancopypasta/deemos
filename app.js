@@ -80,7 +80,7 @@ DeemosInstance.prototype.cleanup = function (ws, sendEvictMessage) {
 				session.sendVoteUpdates(member, this.idToInfo);
 			}
 			if (sendEvictMessage) {
-				ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'You left'}));
+				ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: ''}));
 			}
 		}
 		if (session && session.host === ws) {
@@ -89,7 +89,7 @@ DeemosInstance.prototype.cleanup = function (ws, sendEvictMessage) {
 			}
 			this.codeToSessions[code] = undefined;
 			if (sendEvictMessage) {
-				ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'You left'}));
+				ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: ''}));
 			}
 		}
 	}

@@ -99,7 +99,7 @@ ws.addEventListener("message", e => {
 		case SocketCodes.EVICT:
 			ViewManager.setView('join_view');
 			code = undefined;
-			alert(obj.reason);
+			if (obj.reason) alert(obj.reason);
 			break;
 		case SocketCodes.VOTE_UPDATES:
 			console.log(obj.votes); // TODO remove

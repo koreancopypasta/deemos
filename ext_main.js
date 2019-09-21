@@ -38,7 +38,7 @@ port.onMessage.addListener(msg => {
 			break;
 		case SocketCodes.EVICT:
 			ViewManager.setView('create_code_view');
-			alert(msg.reason);
+			if (msg.reason) alert(msg.reason);
 			break;
 	}
 });
