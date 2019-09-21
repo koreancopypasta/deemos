@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+ <html>
+<head>
+	<title>Deemos</title>
+	<style>
+		body {
+			font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+			font-size: 100%;
+			min-width: 500px;
+		}
+		
+		.form-control {
+			margin-bottom: 15px;
+		}
+		
+		.img-responsive {
+			margin: 0 auto;
+		}
+		
+		.row {
+			text-align: center;
+		}
+	</style>
+	<script src="js/background.js"></script>
+</head>
+<body>
+    <div class = "container">
+        <div class = "row">
+            <h3>Deemos</h3>
+            <h4>Democratic Video Chooser</h4>
+        </div>
+        <button type="button">Create Room Code</button>
+
+    </div>
+</body>
+ </html>
