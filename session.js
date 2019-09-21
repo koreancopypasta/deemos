@@ -3,7 +3,7 @@
  */
 
 const SocketCodes = require('./socket_codes');
-const MapUtils = require('./map_utils');
+const VoteUtils = require('./vote_utils');
 const MemberInfo = require('./member_info');
 
 function Session(options) {
@@ -77,11 +77,11 @@ Session.prototype.advanceVideo = function () {
 	}
 	return winningVideo;
 };
-Session.prototype.sendVoteUpdates = function (member) {
+Session.prototype.sendVoteUpdates = function (member, idToTitles) {
 	member.ws.send(JSON.stringify({
 		type: SocketCodes.VOTE_UPDATES,
-		votes: MapUtils.toObject(member.votes),
-		memberVotes: MapUtils.toObject(member.votes)}));
+		votes: VoteUtils.toOrderedTuples(member.votes, idToTitles),
+		memberVotes: VoteUtils.toOrderedTuples(member.votes)}));
 };
 
 module.exports = Session;

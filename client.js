@@ -5,6 +5,7 @@
 const getWS = require('./get_ws');
 const SocketCodes = require('./socket_codes');
 const ViewManager = require('./view_manager');
+const XMLHttpRequestPromise = require('xhr-promise');
 
 ViewManager.addView('join_view');
 ViewManager.addView('inside_view');
@@ -26,11 +27,14 @@ searchBar.addEventListener("keyup", e => {
 	}
 });
 searchButton.addEventListener("click", e => {
-	let xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = () => {
-		if (xhr.readyState === 4 && xhr.status === 200) {
+	new XMLHttpRequestPromise()
+	.send({
+		method: 'GET',
+		url: "https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&q="+encodeURIComponent(searchBar.value)
+	}).then(results => {
+		if (results.status === 200) {
 			searchResults.innerHTML = "";
-			let jsonResult = JSON.parse(xhr.responseText);
+			let jsonResult = results.responseText;
 			for (let item of jsonResult.items) {
 				
 				console.log("youtube search results...");
@@ -39,13 +43,14 @@ searchButton.addEventListener("click", e => {
 				let newDiv = document.createElement("div");
 				//newDiv.innerHTML = item.snippet.title;
 				newDiv.dataset.videoId = item.id.videoId;
+				newDiv.dataset.videoTitle = item.snippet.title;
 				
 				newDiv.className = "row searchPad";
-
+				
 				let newText = document.createElement("div");
 				newText.className = "col-sm";
 				newText.innerHTML = item.snippet.title;
-
+				
 				newDiv.appendChild(newText);
 				
 				let image = document.createElement("img");
@@ -53,20 +58,16 @@ searchButton.addEventListener("click", e => {
 				image.height = item.snippet.thumbnails.default.height;
 				image.src = item.snippet.thumbnails.default.url;
 				// image.className = "col-sm"
-
+				
 				newDiv.appendChild(image);
 				newDiv.addEventListener('click', () => {
-					ws.send(JSON.stringify({type: SocketCodes.VIDEO_REQUEST, videoId: newDiv.dataset.videoId, code: code}));
+					ws.send(JSON.stringify({type: SocketCodes.VIDEO_REQUEST, videoId: newDiv.dataset.videoId, videoTitle: newDiv.dataset.videoTitle, code: code}));
 				});
-
+				
 				searchResults.appendChild(newDiv);
 			}
 		}
-	};
-	xhr.open("GET",
-		"https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&q="
-		+encodeURIComponent(searchBar.value), true);
-	xhr.send();
+	});
 });
 
 let codeBar = document.getElementById("enter_code");

@@ -57,6 +57,12 @@ function DeemosInstance() {
 	 */
 	this.codeToSessions = new Array(100000);
 	this.codeIndex = 0;
+	
+	/**
+	 *
+	 * @type {Map<string, string>}
+	 */
+	this.idToTitles = new Map();
 }
 DeemosInstance.prototype.initWS = function (wss) {
 	this.wss = wss;
@@ -109,8 +115,9 @@ DeemosInstance.prototype.initWS = function (wss) {
 					session = this.codeToSessions[obj.code];
 					if (session && session.members.has(ws)) {
 						session.addRequest(session.members.get(ws), obj.videoId);
+						this.idToTitles.set(obj.videoId, obj.videoTitle);
 						for (let member of session.members.values()) {
-							session.sendVoteUpdates(member);
+							session.sendVoteUpdates(member, this.idToTitles);
 						}
 					}
 					break;
