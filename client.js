@@ -37,7 +37,7 @@ searchButton.addEventListener("click", e => {
 				//newDiv.innerHTML = item.snippet.title;
 				newDiv.dataset.videoId = item.id.videoId;
 				
-				newDiv.className = "row";
+				newDiv.className = "row searchPad";
 
 				let newText = document.createElement("div");
 				newText.className = "col-sm"
