@@ -11,7 +11,6 @@ ViewManager.addView('inside_view');
 
 ViewManager.setView('join_view');
 
-//console.log(getWS('/'));
 const ws = new WebSocket(getWS('/'));
 
 let searchBar = document.getElementById("search_bar");
@@ -31,14 +30,30 @@ searchButton.addEventListener("click", e => {
 			searchResults.innerHTML = "";
 			let jsonResult = JSON.parse(xhr.responseText);
 			for (let item of jsonResult.items) {
+				
+				console.log("youtube search results...")
+				console.log(item);
+				
 				let newDiv = document.createElement("div");
-				newDiv.innerHTML = item.snippet.title;
+				//newDiv.innerHTML = item.snippet.title;
 				newDiv.dataset.videoId = item.id.videoId;
+				
+				newDiv.className = "row searchPad";
+
+				let newText = document.createElement("div");
+				newText.className = "col-sm"
+				newText.innerHTML = item.snippet.title;
+
+				newDiv.appendChild(newText);
+				
 				let image = document.createElement("img");
 				image.width = item.snippet.thumbnails.default.width;
 				image.height = item.snippet.thumbnails.default.height;
 				image.src = item.snippet.thumbnails.default.url;
+				// image.className = "col-sm"
+
 				newDiv.appendChild(image);
+
 				searchResults.appendChild(newDiv);
 			}
 		}
