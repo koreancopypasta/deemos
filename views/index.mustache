@@ -30,6 +30,10 @@
 			overflow-y:scroll;
 			height:500px;
 		}
+		.akno{
+			font-size: 10px;
+			text-align:center;
+		}
     	</style>
 	</head>
 
@@ -37,13 +41,16 @@
 		<img height="100" width="250" src="../images/grayDeemoslogo.png">
     	<div id="logo">
 		<div id="join_view" class="custompad" >
-			<input type="text" name="enter_code" id="enter_code" placeholder="Enter Code" />
+			<input type="text" name="enter_code" id="enter_code" placeholder="Enter Room Code" />
 			<button id="send_code">Go</button>
+			<div style="position: absolute; bottom: 7.5px;" class="akno">
+				Wilson Meng, Leo Sanchez, Phuong Tran, Samuel Zhou (2019)
+    		</div>
 		</div>
 
 		<div id="inside_view">
 			<div id="trending_section" class="custompad">
-				<h2>Trending</h2>
+				<h2>Queue</h2>
 				
 				<ol id="trending_list">
 					<!-- SHOW TRENDING HERE -->
