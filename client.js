@@ -4,6 +4,12 @@
 
 const getWS = require('./get_ws');
 const SocketCodes = require('./socket_codes');
+const ViewManager = require('./view_manager');
+
+ViewManager.addView('join_view');
+ViewManager.addView('inside_view');
+
+ViewManager.setView('join_view');
 
 const ws = new WebSocket(getWS('/'));
 
