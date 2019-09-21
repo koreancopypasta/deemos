@@ -48,9 +48,29 @@ searchButton.addEventListener("click", e => {
 	xhr.send();
 });
 
+let codeBar = document.getElementById("enter_code");
+let codeButton = document.getElementById("send_code");
+
+codeBar.addEventListener("keyup", e => {
+	if (e.keyCode === 13) {
+		e.preventDefault();
+		codeButton.click();
+	}
+});
+codeButton.addEventListener("click", e => {
+	ws.send(JSON.stringify({type: SocketCodes.JOIN_SERVER, code: parseInt(codeBar.value, 10)}));
+});
+
 ws.addEventListener("message", e => {
 	let obj = JSON.parse(e.data);
 	switch (obj.type) {
-		// TODO add cases
+		case SocketCodes.JOIN_SERVER:
+			ViewManager.setView('inside_view');
+			// TODO more initialization?
+			break;
+		case SocketCodes.EVICT:
+			ViewManager.setView('join_view');
+			alert(obj.reason);
+			break;
 	}
 });

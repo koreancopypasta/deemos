@@ -93,7 +93,17 @@ DeemosInstance.prototype.initWS = function (wss) {
 						host: ws,
 						code: this.codeIndex
 					});
-					ws.send(JSON.stringify({type: SocketCodes.REQUEST_CODE, code: this.codeIndex}))
+					ws.send(JSON.stringify({type: SocketCodes.REQUEST_CODE, code: this.codeIndex}));
+					break;
+				case SocketCodes.JOIN_SERVER:
+					let session = this.codeToSessions[obj.code];
+					if (session) {
+						session.addMember(ws);
+						ws.send(JSON.stringify({type: SocketCodes.JOIN_SERVER, code: obj.code}));
+					} else {
+						ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'Invalid code'}));
+					}
+					break;
 			}
 		});
 	});

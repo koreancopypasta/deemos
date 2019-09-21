@@ -7,4 +7,5 @@ function Session(options) {
 	this.code = options.code;
 	this.members = new Set();
 }
+Session.prototype.addMember = function (ws) { this.members.add(ws); };
 module.exports = Session;
