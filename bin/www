@@ -3,20 +3,24 @@
 /**
  * Module dependencies.
  */
-const app = require('../app');
+const instance = new (require('../app'))();
 const debug = require('debug')('deemos:server');
 const http = require('http');
+const WebSocket = require('ws');
 
 /**
  * Get port from environment and store in Express.
  */
 let port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+instance.app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-const server = http.createServer(app);
+const server = http.createServer(instance.app);
+
+// Create websocket
+instance.initWS(new WebSocket.Server({server: server}));
 
 /**
  * Listen on provided port, on all network interfaces.

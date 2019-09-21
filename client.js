@@ -27,7 +27,7 @@ searchButton.addEventListener("click", e => {
 		}
 	};
 	xhr.open("GET",
-		"https://www.googleapis.com/youtube/v3/search?key=AIzaSyCG74FlNuLpX97L_rybBJh2CuutcLBWupQ&part=id%2Csnippet&q="
+		"https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&q="
 		+encodeURIComponent(searchBar.value), true);
 	xhr.send();
 });
