@@ -1,8 +1,9 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+html, body {
+	width: 100%;
+	margin: 0;
 }
-
-a {
-  color: #00B7FF;
+#trending_section, #search_section {
+	width: 50%;
+	margin: 0;
+	float: left;
 }
