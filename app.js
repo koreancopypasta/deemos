@@ -57,6 +57,12 @@ function DeemosInstance() {
 	 */
 	this.codeToSessions = new Array(100000);
 	this.codeIndex = 0;
+	
+	/**
+	 *
+	 * @type {Map<string, object>}
+	 */
+	this.idToInfo = new Map();
 }
 DeemosInstance.prototype.initWS = function (wss) {
 	this.wss = wss;
@@ -82,6 +88,7 @@ DeemosInstance.prototype.initWS = function (wss) {
 		
 		ws.on('message', data => {
 			let obj = JSON.parse(data);
+			let session;
 			switch (obj.type) {
 				case SocketCodes.REQUEST_CODE:
 					for (;; this.codeIndex = (this.codeIndex+1) % this.codeToSessions.length) {
@@ -96,12 +103,22 @@ DeemosInstance.prototype.initWS = function (wss) {
 					ws.send(JSON.stringify({type: SocketCodes.REQUEST_CODE, code: this.codeIndex}));
 					break;
 				case SocketCodes.JOIN_SERVER:
-					let session = this.codeToSessions[obj.code];
+					session = this.codeToSessions[obj.code];
 					if (session) {
 						session.addMember(ws);
 						ws.send(JSON.stringify({type: SocketCodes.JOIN_SERVER, code: obj.code}));
 					} else {
 						ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'Invalid code'}));
+					}
+					break;
+				case SocketCodes.VIDEO_REQUEST:
+					session = this.codeToSessions[obj.code];
+					if (session && session.members.has(ws)) {
+						session.addRequest(session.members.get(ws), obj.videoId);
+						this.idToInfo.set(obj.videoId, obj.videoInfo);
+						for (let member of session.members.values()) {
+							session.sendVoteUpdates(member, this.idToInfo);
+						}
 					}
 					break;
 			}
