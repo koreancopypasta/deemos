@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mustacheExpress = require('mustache-express');
 const nocache = require('nocache');
+const Session = require('session');
+const SocketCodes = require('./socket_codes');
 
 let indexRouter = require('./routes/index');
 
@@ -48,6 +50,13 @@ function DeemosInstance() {
 	 * @type {?WebSocket.Server}
 	 */
 	this.wss = null;
+	
+	/**
+	 *
+	 * @type {Session[]}
+	 */
+	this.codeToSessions = new Array(100000);
+	this.codeIndex = 0;
 }
 DeemosInstance.prototype.initWS = function (wss) {
 	this.wss = wss;
@@ -72,7 +81,17 @@ DeemosInstance.prototype.initWS = function (wss) {
 		});
 		
 		ws.on('message', data => {
-			// TODO handle messages here.
+			let obj = JSON.parse(data);
+			switch (obj.type) {
+				case SocketCodes.REQUEST_CODE:
+					for (;; this.codeIndex = (this.codeIndex+1) % this.codeToSessions.length) {
+						if (!this.codeToSessions[this.codeIndex]) {
+							break;
+						}
+					}
+					this.codeToSessions[this.codeIndex] = new Session();
+					ws.send(JSON.stringify({type: SocketCodes.REQUEST_CODE, code: this.codeIndex}))
+			}
 		});
 	});
 };

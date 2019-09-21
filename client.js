@@ -3,6 +3,7 @@
  */
 
 const getWS = require('./get_ws');
+const SocketCodes = require('./socket_codes');
 
 const ws = new WebSocket(getWS('/'));
 
@@ -37,5 +38,8 @@ searchButton.addEventListener("click", e => {
 });
 
 ws.addEventListener("message", e => {
-	// TODO process messages here
+	let obj = JSON.parse(e.data);
+	switch (obj.type) {
+		// TODO add cases
+	}
 });
