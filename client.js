@@ -61,7 +61,11 @@ searchButton.addEventListener("click", e => {
 				
 				newDiv.appendChild(image);
 				newDiv.addEventListener('click', () => {
-					ws.send(JSON.stringify({type: SocketCodes.VIDEO_REQUEST, videoId: newDiv.dataset.videoId, videoTitle: newDiv.dataset.videoTitle, code: code}));
+					ws.send(JSON.stringify({
+						type: SocketCodes.VIDEO_REQUEST,
+						videoId: newDiv.dataset.videoId,
+						videoInfo: {title: newDiv.dataset.videoTitle, thumbnail: item.snippet.thumbnails.default.url},
+						code: code}));
 				});
 				
 				searchResults.appendChild(newDiv);
@@ -83,6 +87,8 @@ codeButton.addEventListener("click", e => {
 	ws.send(JSON.stringify({type: SocketCodes.JOIN_SERVER, code: parseInt(codeBar.value, 10)}));
 });
 
+let trendingList = document.getElementById('trending_list');
+
 ws.addEventListener("message", e => {
 	let obj = JSON.parse(e.data);
 	switch (obj.type) {
@@ -96,9 +102,32 @@ ws.addEventListener("message", e => {
 			alert(obj.reason);
 			break;
 		case SocketCodes.VOTE_UPDATES:
-			console.log(obj.votes);
+			console.log(obj.votes); // TODO remove
 			console.log(obj.memberVotes);
-			// TODO render this properly
+			
+			for (let tuple of obj.votes) {
+				let newDiv = document.createElement("div");
+				//newDiv.innerHTML = item.snippet.title;
+				newDiv.dataset.videoId = tuple[0];
+				newDiv.dataset.videoTitle = tuple[2].title;
+				
+				newDiv.className = "row searchPad";
+				
+				let newText = document.createElement("div");
+				newText.className = "col-sm";
+				newText.innerHTML = tuple[2].title;
+				
+				newDiv.appendChild(newText);
+				
+				let image = document.createElement("img");
+				image.src = tuple[2].thumbnail;
+				// image.className = "col-sm"
+				
+				newDiv.appendChild(image);
+				
+				trendingList.appendChild(newDiv);
+			}
+			
 			break;
 	}
 });

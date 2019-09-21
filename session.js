@@ -77,11 +77,11 @@ Session.prototype.advanceVideo = function () {
 	}
 	return winningVideo;
 };
-Session.prototype.sendVoteUpdates = function (member, idToTitles) {
+Session.prototype.sendVoteUpdates = function (member, idToInfo) {
 	member.ws.send(JSON.stringify({
 		type: SocketCodes.VOTE_UPDATES,
-		votes: VoteUtils.toOrderedTuples(member.votes, idToTitles),
-		memberVotes: VoteUtils.toOrderedTuples(member.votes)}));
+		votes: VoteUtils.toOrderedTuples(member.votes, idToInfo),
+		memberVotes: VoteUtils.toObject(member.votes)}));
 };
 
 module.exports = Session;
