@@ -89,7 +89,10 @@ DeemosInstance.prototype.initWS = function (wss) {
 							break;
 						}
 					}
-					this.codeToSessions[this.codeIndex] = new Session();
+					this.codeToSessions[this.codeIndex] = new Session({
+						host: ws,
+						code: this.codeIndex
+					});
 					ws.send(JSON.stringify({type: SocketCodes.REQUEST_CODE, code: this.codeIndex}))
 			}
 		});
