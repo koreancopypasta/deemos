@@ -2,6 +2,10 @@
  * @author Landmaster
  */
 
+const getWS = require('./get_ws');
+
+const ws = new WebSocket(getWS('/'));
+
 let searchBar = document.getElementById("search_bar");
 let searchButton = document.getElementById("search_enter");
 let searchResults = document.getElementById("search_results");
@@ -30,4 +34,8 @@ searchButton.addEventListener("click", e => {
 		"https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&q="
 		+encodeURIComponent(searchBar.value), true);
 	xhr.send();
+});
+
+ws.addEventListener("message", e => {
+	// TODO process messages here
 });

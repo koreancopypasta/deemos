@@ -3,6 +3,10 @@
  * @author Landmaster
  */
 
+const getWS = require('./get_ws');
+
+const ws = new WebSocket(getWS('/'));
+
 let searchBar = document.getElementById("search_bar");
 let searchButton = document.getElementById("search_enter");
 let searchResults = document.getElementById("search_results");
@@ -32,4 +36,15 @@ searchButton.addEventListener("click", e => {
 		+encodeURIComponent(searchBar.value), true);
 	xhr.send();
 });
+
+ws.addEventListener("message", e => {
+	// TODO process messages here
+});
+},{"./get_ws":2}],2:[function(require,module,exports){
+/**
+ * @author Landmaster
+ */
+
+const getWS = path => (location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.hostname + (location.port ? ':'+location.port : '') + path;
+module.exports = getWS;
 },{}]},{},[1]);
