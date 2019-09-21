@@ -28,17 +28,22 @@
 		}
 		.overflow{
 			overflow-y:scroll;
+			overflow-x: hidden; 
 			height:500px;
 		}
 		.akno{
 			font-size: 10px;
 			text-align:center;
 		}
+		.img {
+    		max-width:25%;
+    		height:auto;
+		}	
     	</style>
 	</head>
 
 	<body>
-		<img height="100" width="250" src="../images/grayDeemoslogo.png">
+		<img src="../images/grayDeemoslogo.png" class="img">
     	<div id="logo">
 		<div id="join_view" class="custompad" >
 			<input type="text" name="enter_code" id="enter_code" placeholder="Enter Room Code" />
@@ -50,16 +55,16 @@
 
 		<div id="inside_view">
 			<div id="trending_section" class="custompad">
-				<h2>Queue</h2>
+				<h2 style="font-size:2vw">Queue</h2>
 				
 				<ol id="trending_list">
 					<!-- SHOW TRENDING HERE -->
 				</ol>
 			</div>
 			<div id="search_section" class="custompad">
-				<h2>Search</h2>
-				<input type="text" name="search_bar" id="search_bar" placeholder="Search" />
-				<button id="search_enter">Go</button>
+				<h2 style="font-size:2vw">Search</h2>
+				<input type="text" name="search_bar" id="search_bar" placeholder="Search" style="font-size:1vw"/>
+				<button id="search_enter" style="font-size:1vw">Go</button>
 				<div id="search_results" class="overflow">
 					<!-- <div data-video-id="thevideoid">Video title<img src="thumbnail.png" /></div> -->
 				</div>
