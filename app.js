@@ -63,7 +63,37 @@ function DeemosInstance() {
 	 * @type {Map<string, Object>}
 	 */
 	this.idToInfo = new Map();
+	
+	/**
+	 *
+	 * @type {WeakMap<WebSocket, number>}
+	 */
+	this.memberToCode = new WeakMap();
 }
+DeemosInstance.prototype.cleanup = function (ws, sendEvictMessage) {
+	if (this.memberToCode.has(ws)) {
+		let code = this.memberToCode.get(ws);
+		let session = this.codeToSessions[code];
+		if (session && session.members.has(ws)) {
+			session.evictMember(session.members.get(ws));
+			for (let member of session.members.values()) {
+				session.sendVoteUpdates(member, this.idToInfo);
+			}
+			if (sendEvictMessage) {
+				ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'You left'}));
+			}
+		}
+		if (session && session.host === ws) {
+			for (let member of session.members.values()) {
+				member.ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'Host disconnected'}));
+			}
+			this.codeToSessions[code] = undefined;
+			if (sendEvictMessage) {
+				ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'You left'}));
+			}
+		}
+	}
+};
 DeemosInstance.prototype.initWS = function (wss) {
 	this.wss = wss;
 	this.wss.on('connection', (ws, req) => {
@@ -83,7 +113,7 @@ DeemosInstance.prototype.initWS = function (wss) {
 		}, 30000);
 		
 		ws.on('close', () => {
-			// TODO Perform cleanup here.
+			this.cleanup(ws);
 		});
 		
 		ws.on('message', data => {
@@ -100,12 +130,14 @@ DeemosInstance.prototype.initWS = function (wss) {
 						host: ws,
 						code: this.codeIndex
 					});
+					this.memberToCode.set(ws, this.codeIndex);
 					ws.send(JSON.stringify({type: SocketCodes.REQUEST_CODE, code: this.codeIndex}));
 					break;
 				case SocketCodes.JOIN_SERVER:
 					session = this.codeToSessions[obj.code];
 					if (session) {
 						session.addMember(ws);
+						this.memberToCode.set(ws, obj.code);
 						ws.send(JSON.stringify({type: SocketCodes.JOIN_SERVER, code: obj.code}));
 					} else {
 						ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'Invalid code'}));
@@ -134,6 +166,9 @@ DeemosInstance.prototype.initWS = function (wss) {
 							session.sendVoteUpdates(member, this.idToInfo);
 						}
 					}
+					break;
+				case SocketCodes.REQUEST_LEAVE:
+					this.cleanup(ws, true);
 					break;
 			}
 		});
