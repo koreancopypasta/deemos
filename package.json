@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"start": "npm run build && node ./bin/www",
-		"build": "browserify client.js > public/javascripts/output.js"
+		"build": "browserify client.js > public/javascripts/output.js && browserify ext_main.js > ChromeExtension/js/background.js"
 	},
 	"dependencies": {
 		"cookie-parser": "^1.4.4",

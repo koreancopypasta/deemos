@@ -11,6 +11,7 @@ ViewManager.addView('inside_view');
 
 ViewManager.setView('join_view');
 
+//console.log(getWS('/'));
 const ws = new WebSocket(getWS('/'));
 
 let searchBar = document.getElementById("search_bar");
