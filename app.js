@@ -60,7 +60,7 @@ function DeemosInstance() {
 	
 	/**
 	 *
-	 * @type {Map<string, object>}
+	 * @type {Map<string, Object>}
 	 */
 	this.idToInfo = new Map();
 }
@@ -116,6 +116,20 @@ DeemosInstance.prototype.initWS = function (wss) {
 					if (session && session.members.has(ws)) {
 						session.addRequest(session.members.get(ws), obj.videoId);
 						this.idToInfo.set(obj.videoId, obj.videoInfo);
+						for (let member of session.members.values()) {
+							session.sendVoteUpdates(member, this.idToInfo);
+						}
+					}
+					break;
+				case SocketCodes.INCREMENT_VOTE:
+					session = this.codeToSessions[obj.code];
+					if (session && session.members.has(ws)) {
+						let theMember = session.members.get(ws);
+						let increment = obj.isUpvote ? 1 : -1;
+						if (theMember.votes.get(obj.videoId) === increment) {
+							increment = 0; // reset if clicked again
+						}
+						session.vote(theMember, obj.videoId, increment);
 						for (let member of session.members.values()) {
 							session.sendVoteUpdates(member, this.idToInfo);
 						}
