@@ -105,6 +105,8 @@ ws.addEventListener("message", e => {
 			console.log(obj.votes); // TODO remove
 			console.log(obj.memberVotes);
 			
+			trendingList.innerHTML = '';
+			
 			for (let tuple of obj.votes) {
 				let newDiv = document.createElement("div");
 				//newDiv.innerHTML = item.snippet.title;
