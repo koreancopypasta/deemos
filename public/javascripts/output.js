@@ -4,6 +4,7 @@
  */
 
 const getWS = require('./get_ws');
+const SocketCodes = require('./socket_codes');
 
 const ws = new WebSocket(getWS('/'));
 
@@ -23,10 +24,15 @@ searchButton.addEventListener("click", e => {
 		if (xhr.readyState === 4 && xhr.status === 200) {
 			searchResults.innerHTML = "";
 			let jsonResult = JSON.parse(xhr.responseText);
-			for (let item of jsonResult["items"]) {
+			for (let item of jsonResult.items) {
 				let newDiv = document.createElement("div");
-				newDiv.textContent = item.snippet.title;
+				newDiv.innerHTML = item.snippet.title;
 				newDiv.dataset.videoId = item.id.videoId;
+				let image = document.createElement("img");
+				image.width = item.snippet.thumbnails.default.width;
+				image.height = item.snippet.thumbnails.default.height;
+				image.src = item.snippet.thumbnails.default.url;
+				newDiv.appendChild(image);
 				searchResults.appendChild(newDiv);
 			}
 		}
@@ -38,13 +44,24 @@ searchButton.addEventListener("click", e => {
 });
 
 ws.addEventListener("message", e => {
-	// TODO process messages here
+	let obj = JSON.parse(e.data);
+	switch (obj.type) {
+		// TODO add cases
+	}
 });
-},{"./get_ws":2}],2:[function(require,module,exports){
+},{"./get_ws":2,"./socket_codes":3}],2:[function(require,module,exports){
 /**
  * @author Landmaster
  */
 
 const getWS = path => (location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.hostname + (location.port ? ':'+location.port : '') + path;
 module.exports = getWS;
+},{}],3:[function(require,module,exports){
+/**
+ * @author Landmaster
+ */
+
+module.exports = {
+	REQUEST_CODE: 'REQUEST_CODE'
+};
 },{}]},{},[1]);

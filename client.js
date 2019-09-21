@@ -23,10 +23,15 @@ searchButton.addEventListener("click", e => {
 		if (xhr.readyState === 4 && xhr.status === 200) {
 			searchResults.innerHTML = "";
 			let jsonResult = JSON.parse(xhr.responseText);
-			for (let item of jsonResult["items"]) {
+			for (let item of jsonResult.items) {
 				let newDiv = document.createElement("div");
-				newDiv.textContent = item.snippet.title;
+				newDiv.innerHTML = item.snippet.title;
 				newDiv.dataset.videoId = item.id.videoId;
+				let image = document.createElement("img");
+				image.width = item.snippet.thumbnails.default.width;
+				image.height = item.snippet.thumbnails.default.height;
+				image.src = item.snippet.thumbnails.default.url;
+				newDiv.appendChild(image);
 				searchResults.appendChild(newDiv);
 			}
 		}

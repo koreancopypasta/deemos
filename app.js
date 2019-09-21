@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mustacheExpress = require('mustache-express');
 const nocache = require('nocache');
-const Session = require('session');
+const Session = require('./session');
 const SocketCodes = require('./socket_codes');
 
 let indexRouter = require('./routes/index');
