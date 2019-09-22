@@ -10,7 +10,7 @@ const XMLHttpRequestPromise = require('xhr-promise');
 ViewManager.addView('join_view');
 ViewManager.addView('inside_view');
 
-ViewManager.setView('inside_view');
+ViewManager.setView('join_view');
 
 let code = undefined;
 
