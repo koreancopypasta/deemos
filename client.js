@@ -116,6 +116,8 @@ ws.addEventListener("message", e => {
 				newDiv.className = "row searchPad";
 				
 				let newVote = document.createElement("div");
+				
+				newVote.innerText = tuple[1]; // number of votes
 
 				let newUpVote = document.createElement("button");
 				let newDownVote = document.createElement("button");
