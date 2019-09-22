@@ -154,6 +154,7 @@ DeemosInstance.prototype.initWS = function (wss) {
 					}
 					break;
 				case SocketCodes.INCREMENT_VOTE:
+					//console.log(obj);
 					session = this.codeToSessions[obj.code];
 					if (session && session.members.has(ws)) {
 						let theMember = session.members.get(ws);
