@@ -14,6 +14,8 @@ let domElems = {};
 let code = undefined;
 let ws = new WebSocket('ws://localhost:3000/'); // TODO change when heroku's up
 
+let ytWind = undefined;
+
 ws.addEventListener('message', event => {
 	let obj = JSON.parse(event.data);
 	switch (obj.type) {
@@ -30,8 +32,15 @@ ws.addEventListener('message', event => {
 			break;
 		case SocketCodes.REQUEST_NEXT_VIDEO:
 			curVideo = obj.videoId;
-			let newWind = window.open('localhost:3000/yt/'+curVideo, '_blank');
-			newWind.focus();
+			if (ytWind && ytWind.closed) {
+				ytWind = undefined;
+			}
+			if (!ytWind) {
+				ytWind = window.open('localhost:3000/yt/'+curVideo, '_blank');
+			} else {
+				ytWind.postMessage({videoId: curVideo}, '*');
+			}
+			ytWind.focus();
 			break;
 	}
 });
