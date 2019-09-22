@@ -10,7 +10,7 @@ const XMLHttpRequestPromise = require('xhr-promise');
 ViewManager.addView('join_view');
 ViewManager.addView('inside_view');
 
-ViewManager.setView('join_view');
+ViewManager.setView('inside_view');
 
 let code = undefined;
 
@@ -30,7 +30,7 @@ searchButton.addEventListener("click", e => {
 	new XMLHttpRequestPromise()
 	.send({
 		method: 'GET',
-		url: "https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&q="+encodeURIComponent(searchBar.value)
+		url: "https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&maxResults=20&q="+encodeURIComponent(searchBar.value)
 	}).then(results => {
 		if (results.status === 200) {
 			searchResults.innerHTML = "";

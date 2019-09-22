@@ -5,14 +5,82 @@
    		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
 
 		<link rel="stylesheet" href="stylesheets/style.css" />
+		<style>
+        body {
+            color: white;
+            font-family: 'Karla', sans-serif;
+            text-align: center;
+            padding: 5%;
+			background: #1D976C;  /* fallback for old browsers */
+			background: -webkit-linear-gradient(to bottom, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
+			background: linear-gradient(to bottom, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+			background-repeat: no-repeat;
+        }
+		html {
+			height:100%;
+		}
+		.custompad {
+			padding-top:5%;
+			padding-right: 5%;
+
+		}
+		.searchPad {
+			margin-top:5%;
+		}
+		.overflow{
+			overflow-y:scroll;
+			overflow-x: hidden; 
+			height:500px;
+		}
+		.akno{
+			font-size:8px;
+		}
+		.img {
+    		max-width:27.5%;
+    		height:auto;
+		}	
+		input[type=text] {
+  			background-color: #F5FCF5;
+			border: none;
+  			color: black;
+			border-radius: 4px;
+		}
+		.videoSelect:hover {
+			background-color: gray;
+		}
+		::-webkit-scrollbar {
+			width: 10px;
+		}
+
+			/* Track */
+		::-webkit-scrollbar-track {
+			background: #f1f1f1; 
+		}
+			
+			/* Handle */
+		::-webkit-scrollbar-thumb {
+			background: #888; 
+		}
+
+			/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #555; 
+		}
+    	</style>
 	</head>
 
 	<body>
 		<img src="../images/grayDeemoslogo.png" class="img">
 		<div id="join_view" class="custompad" >
+<<<<<<< HEAD
 			<input type="text" name="enter_code" id="enter_code" placeholder="Enter Room Code" style="font-size:1.60vw" />
 			<button id="send_code" style="font-size:1.60vw">Go</button>
 			<div class="akno">
+=======
+			<input type="text" name="enter_code" id="enter_code" placeholder="Enter Room Code" style="font-size:2vw" class/>
+			<button id="send_code" style="font-size:.9vw" type="submit" class="btn btn-secondary">Go</button>
+			<div style="position: absolute; bottom: 7.5px;" style="font-size:.1vw" class="akno">
+>>>>>>> ce6a399c3958efee0a06e67caa091ac3098944a0
 				Wilson Meng, Leo Sanchez, Phuong Tran, Samuel Zhou (2019)
     		</div>
 		</div>
@@ -27,8 +95,8 @@
 			</div>
 			<div id="search_section" class="custompad">
 				<h2 style="font-size:2vw">Search</h2>
-				<input type="text" name="search_bar" id="search_bar" placeholder="Search" style="font-size:1vw"/>
-				<button id="search_enter" style="font-size:1vw">Go</button>
+				<input type="text" name="search_bar" id="search_bar" placeholder="Search" style="font-size:2vw"/>
+				<button type="submit" class="btn btn-secondary" id="search_enter" style="font-size:.70vw">Go</button>
 				<div id="search_results" class="overflow">
 					<!-- <div data-video-id="thevideoid">Video title<img src="thumbnail.png" /></div> -->
 				</div>
