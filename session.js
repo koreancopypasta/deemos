@@ -91,7 +91,7 @@ Session.prototype.advanceAndSendVideo = function () {
 Session.prototype.sendVoteUpdates = function (member, idToInfo) {
 	member.ws.send(JSON.stringify({
 		type: SocketCodes.VOTE_UPDATES,
-		votes: VoteUtils.toOrderedTuples(member.votes, idToInfo),
+		votes: VoteUtils.toOrderedTuples(this.votes, idToInfo),
 		memberVotes: VoteUtils.toObject(member.votes)}));
 };
 
