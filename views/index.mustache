@@ -21,6 +21,7 @@
 		}
 		.custompad {
 			padding-top:5%;
+			padding-right: 5%;
 
 		}
 		.searchPad {
@@ -44,6 +45,10 @@
   			color: black;
 			border-radius: 4px;
 		}
+		.videoSelect:hover {
+			background-color: gray;
+		}
+
     	</style>
 	</head>
 
@@ -62,9 +67,9 @@
 			<div id="trending_section" class="custompad">
 				<h2 style="font-size:2vw">Queue</h2>
 				
-				<ol id="trending_list">
+				<div id="trending_list" class="overflow">
 					<!-- SHOW TRENDING HERE -->
-				</ol>
+				</div>
 			</div>
 			<div id="search_section" class="custompad">
 				<h2 style="font-size:2vw">Search</h2>
