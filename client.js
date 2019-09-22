@@ -30,7 +30,7 @@ searchButton.addEventListener("click", e => {
 	new XMLHttpRequestPromise()
 	.send({
 		method: 'GET',
-		url: "https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&maxResults=20&q="+encodeURIComponent(searchBar.value)
+		url: "https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&q="+encodeURIComponent(searchBar.value)
 	}).then(results => {
 		if (results.status === 200) {
 			searchResults.innerHTML = "";
@@ -149,9 +149,13 @@ ws.addEventListener("message", e => {
 				newTextTitle.innerHTML = tuple[2].title;
 				
 				newText.appendChild(newTextTitle);
+<<<<<<< HEAD
                 newText.appendChild(newVote);
                 
                 newText.classList.add('videoTxtColor');
+=======
+				newText.appendChild(newVote);
+>>>>>>> 6aefadcb70e8380aca99046653a0bc85117a6dd7
 
 				newDiv.appendChild(newText);
 				
