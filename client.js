@@ -120,11 +120,19 @@ ws.addEventListener("message", e => {
 				newVote.innerText = tuple[1]; // number of votes
 
 				let newUpVote = document.createElement("button");
-				let newDownVote = document.createElement("button");
-				
+                let newDownVote = document.createElement("button"); 
+                
+                let thumbsUp = document.createElement("i");
+                thumbsUp.classList.add('fas', 'fa-thumbs-up');
+                newUpVote.appendChild(thumbsUp);
+
+                let thumbsDown = document.createElement("i");
+                thumbsUp.classList.add('fas', 'fa-thumbs-down');
+                newDownVote.appendChild(thumbsDown);
+                
 				newUpVote.classList.add('upvote', 'btn', 'votePad');
 				if (obj.memberVotes[tuple[0]] === 1) newUpVote.classList.add('active');
-				newUpVote.innerText = "Up";
+				// newUpVote.innerText = "Up";
 				newUpVote.addEventListener('click', e => {
 					ws.send(JSON.stringify({type: SocketCodes.INCREMENT_VOTE, videoId: tuple[0], isUpvote: true, code: code}));
 					e.stopPropagation();
@@ -132,7 +140,7 @@ ws.addEventListener("message", e => {
 				
 				newDownVote.classList.add('downvote', 'btn');
 				if (obj.memberVotes[tuple[0]] === -1) newDownVote.classList.add('active');
-				newDownVote.innerText = "Down";
+				// newDownVote.innerText = "Down";
 				newDownVote.addEventListener('click', e => {
 					ws.send(JSON.stringify({type: SocketCodes.INCREMENT_VOTE, videoId: tuple[0], isUpvote: false, code: code}));
 					e.stopPropagation();
