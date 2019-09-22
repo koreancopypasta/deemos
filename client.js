@@ -48,7 +48,7 @@ searchButton.addEventListener("click", e => {
 				newDiv.className = "row searchPad";
 				
 				let newText = document.createElement("div");
-				newText.className = "col-sm";
+				newText.className = "col-sm videoTxtColor";
 				newText.innerHTML = item.snippet.title;
 				
 				newDiv.appendChild(newText);
@@ -122,7 +122,7 @@ ws.addEventListener("message", e => {
 				let newUpVote = document.createElement("button");
 				let newDownVote = document.createElement("button");
 				
-				newUpVote.classList.add('upvote', 'btn');
+				newUpVote.classList.add('upvote', 'btn', 'votePad');
 				if (obj.memberVotes[tuple[0]] === 1) newUpVote.classList.add('active');
 				newUpVote.innerText = "Up";
 				newUpVote.addEventListener('click', e => {
@@ -149,7 +149,9 @@ ws.addEventListener("message", e => {
 				newTextTitle.innerHTML = tuple[2].title;
 				
 				newText.appendChild(newTextTitle);
-				newText.appendChild(newVote);
+                newText.appendChild(newVote);
+                
+                newText.classList.add('videoTxtColor');
 
 				newDiv.appendChild(newText);
 				
