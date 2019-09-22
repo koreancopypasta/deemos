@@ -1,3 +1,5 @@
 .idea
 public/javascripts/output.js
 ChromeExtension/js/**
+node_modules
+
