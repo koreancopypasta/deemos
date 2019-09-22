@@ -120,18 +120,20 @@ ws.addEventListener("message", e => {
 				let newUpVote = document.createElement("button");
 				let newDownVote = document.createElement("button");
 				
-				newUpVote.classList.add('upvote');
+				newUpVote.classList.add('upvote', 'btn');
 				if (obj.memberVotes[tuple[0]] === 1) newUpVote.classList.add('active');
 				newUpVote.innerText = "Up";
 				newUpVote.addEventListener('click', e => {
 					ws.send(JSON.stringify({type: SocketCodes.INCREMENT_VOTE, videoId: tuple[0], isUpvote: true, code: code}));
+					e.stopPropagation();
 				});
 				
-				newDownVote.classList.add('downvote');
+				newDownVote.classList.add('downvote', 'btn');
 				if (obj.memberVotes[tuple[0]] === -1) newDownVote.classList.add('active');
 				newDownVote.innerText = "Down";
 				newDownVote.addEventListener('click', e => {
 					ws.send(JSON.stringify({type: SocketCodes.INCREMENT_VOTE, videoId: tuple[0], isUpvote: false, code: code}));
+					e.stopPropagation();
 				});
 				
 				// newVote.className = "col-sm";

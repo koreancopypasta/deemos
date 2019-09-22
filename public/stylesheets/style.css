@@ -45,3 +45,9 @@ html {
 .videoSelect:hover {
 	background-color: gray;
 }
+.upvote.active {
+	background-color: green;
+}
+.downvote.active {
+	background-color: red;
+}
