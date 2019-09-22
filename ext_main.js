@@ -13,7 +13,7 @@ let port = chrome.runtime.connect({name: "Deemos"});
 document.addEventListener('DOMContentLoaded', () => {
 	ViewManager.addView('create_code_view');
 	ViewManager.addView('current_code_view');
-	ViewManager.setView('create_code_view');
+	//ViewManager.setView('create_code_view');
 	
 	domElems.createRoomCode = document.getElementById('create_room_code');
 	domElems.currentCode = document.getElementById('current_code');
