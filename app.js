@@ -180,6 +180,9 @@ DeemosInstance.prototype.initWS = function (wss) {
 					if (session && session.host === ws) {
 						session.isRequestingNext = true;
 						session.advanceAndSendVideo();
+						for (let member of session.members.values()) {
+							session.sendVoteUpdates(member, this.idToInfo);
+						}
 					}
 					break;
 			}
