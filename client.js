@@ -30,7 +30,7 @@ searchButton.addEventListener("click", e => {
 	new XMLHttpRequestPromise()
 	.send({
 		method: 'GET',
-		url: "https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&maxResults=20&q="+encodeURIComponent(searchBar.value)
+		url: "https://www.googleapis.com/youtube/v3/search?key="+encodeURIComponent(apiKey)+"&part=id%2Csnippet&q="+encodeURIComponent(searchBar.value)
 	}).then(results => {
 		if (results.status === 200) {
 			searchResults.innerHTML = "";
@@ -115,31 +115,43 @@ ws.addEventListener("message", e => {
 				
 				newDiv.className = "row searchPad";
 				
-                let newVote = document.createElement("div");
+				let newVote = document.createElement("div");
+				
+				newVote.innerText = tuple[1]; // number of votes
 
-                let newUpVote = document.createElement("button");
-                let newDownVote = document.createElement("button");
+				let newUpVote = document.createElement("button");
+				let newDownVote = document.createElement("button");
+				
+				newUpVote.classList.add('upvote', 'btn');
+				if (obj.memberVotes[tuple[0]] === 1) newUpVote.classList.add('active');
+				newUpVote.innerText = "Up";
+				newUpVote.addEventListener('click', e => {
+					ws.send(JSON.stringify({type: SocketCodes.INCREMENT_VOTE, videoId: tuple[0], isUpvote: true, code: code}));
+					e.stopPropagation();
+				});
+				
+				newDownVote.classList.add('downvote', 'btn');
+				if (obj.memberVotes[tuple[0]] === -1) newDownVote.classList.add('active');
+				newDownVote.innerText = "Down";
+				newDownVote.addEventListener('click', e => {
+					ws.send(JSON.stringify({type: SocketCodes.INCREMENT_VOTE, videoId: tuple[0], isUpvote: false, code: code}));
+					e.stopPropagation();
+				});
+				
+				// newVote.className = "col-sm";
+				newVote.appendChild(newUpVote);
+				newVote.appendChild(newDownVote);
+				
+				let newText = document.createElement("div");
+				newText.className = "col-sm";
+				
+				let newTextTitle = document.createElement("div");
+				newTextTitle.innerHTML = tuple[2].title;
+				
+				newText.appendChild(newTextTitle);
+				newText.appendChild(newVote);
 
-                newUpVote.className = "btn btn-success"
-                newUpVote.innerText = "Up"
-                
-                newDownVote.className = "btn btn-danger"
-                newDownVote.innerText = "Down"
-
-                // newVote.className = "col-sm";
-                newVote.appendChild(newUpVote);
-                newVote.appendChild(newDownVote);
-                
-                let newText = document.createElement("div");
-                newText.className = "col-sm";
-                
-                let newTextTitle = document.createElement("div");
-                newTextTitle.innerHTML = tuple[2].title;
-                
-                newText.appendChild(newTextTitle);
-                newText.appendChild(newVote);
-
-                newDiv.appendChild(newText);
+				newDiv.appendChild(newText);
 				
 				let image = document.createElement("img");
 				image.src = tuple[2].thumbnail;
