@@ -17,12 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	domElems.createRoomCode = document.getElementById('create_room_code');
 	domElems.currentCode = document.getElementById('current_code');
+	domElems.resetCode = document.getElementById('reset_code');
 	
 	domElems.createRoomCode.addEventListener('click', e => {
 		port.postMessage({type: SocketCodes.REQUEST_CODE});
 	});
 	
-	port.postMessage({type: SocketCodes.RELAY_FROM_BACKGROUND, property: 'code'})
+	port.postMessage({type: SocketCodes.RELAY_FROM_BACKGROUND, property: 'code'});
+	
+	domElems.resetCode.addEventListener('click', e => {
+		port.postMessage({type: SocketCodes.REQUEST_LEAVE});
+	});
 }, false);
 
 port.onMessage.addListener(msg => {
@@ -30,6 +35,10 @@ port.onMessage.addListener(msg => {
 		case SocketCodes.REQUEST_CODE:
 			domElems.currentCode.textContent = msg.code;
 			ViewManager.setView('current_code_view');
+			break;
+		case SocketCodes.EVICT:
+			ViewManager.setView('create_code_view');
+			if (msg.reason) alert(msg.reason);
 			break;
 	}
 });
