@@ -149,13 +149,9 @@ ws.addEventListener("message", e => {
 				newTextTitle.innerHTML = tuple[2].title;
 				
 				newText.appendChild(newTextTitle);
-<<<<<<< HEAD
                 newText.appendChild(newVote);
                 
                 newText.classList.add('videoTxtColor');
-=======
-				newText.appendChild(newVote);
->>>>>>> 6aefadcb70e8380aca99046653a0bc85117a6dd7
 
 				newDiv.appendChild(newText);
 				
