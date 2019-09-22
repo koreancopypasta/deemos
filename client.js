@@ -127,12 +127,12 @@ ws.addEventListener("message", e => {
                 newUpVote.appendChild(thumbsUp);
 
                 let thumbsDown = document.createElement("i");
-                thumbsUp.classList.add('fas', 'fa-thumbs-down');
+                thumbsDown.classList.add('fas', 'fa-thumbs-down');
                 newDownVote.appendChild(thumbsDown);
                 
 				newUpVote.classList.add('upvote', 'btn', 'votePad');
 				if (obj.memberVotes[tuple[0]] === 1) newUpVote.classList.add('active');
-				// newUpVote.innerText = "Up";
+				// newUpVote.innerText = "Up";F
 				newUpVote.addEventListener('click', e => {
 					ws.send(JSON.stringify({type: SocketCodes.INCREMENT_VOTE, videoId: tuple[0], isUpvote: true, code: code}));
 					e.stopPropagation();
@@ -140,7 +140,7 @@ ws.addEventListener("message", e => {
 				
 				newDownVote.classList.add('downvote', 'btn');
 				if (obj.memberVotes[tuple[0]] === -1) newDownVote.classList.add('active');
-				// newDownVote.innerText = "Down";
+				// newDownVote.innerText = "Down"dkfs;
 				newDownVote.addEventListener('click', e => {
 					ws.send(JSON.stringify({type: SocketCodes.INCREMENT_VOTE, videoId: tuple[0], isUpvote: false, code: code}));
 					e.stopPropagation();

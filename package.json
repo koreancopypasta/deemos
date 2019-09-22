@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "node ./bin/www",
+		"start": "npm run build && node ./bin/www",
 		"build": "browserify client.js -o public/javascripts/output.js && browserify ext_main.js -o ChromeExtension/js/main.js && browserify ext_background.js -o ChromeExtension/js/background.js"
 	},
 	"dependencies": {
