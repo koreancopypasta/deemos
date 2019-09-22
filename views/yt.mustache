@@ -37,6 +37,7 @@
 
 	function onPlayerStateChange(event) {
 		if (event.data === 0) {
+			if (window.opener) window.opener.postMessage('close', '*');
 			window.close();
 		}
 	}

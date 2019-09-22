@@ -32,10 +32,13 @@ ws.addEventListener('message', event => {
 			curVideo = obj.videoId;
 			let newWind = window.open('localhost:3000/yt/'+curVideo, '_blank');
 			newWind.focus();
-			newWind.addEventListener('beforeunload', e => {
-				requestVideo();
-			});
 			break;
+	}
+});
+
+window.addEventListener('message', e => {
+	if (e.data === 'close') {
+		requestVideo();
 	}
 });
 

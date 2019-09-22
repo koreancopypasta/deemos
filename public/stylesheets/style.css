@@ -7,15 +7,21 @@ html, body {
 	margin: 0;
 	float: left;
 }
+.upvote.active {
+	background-color: green;
+}
+.downvote.active {
+	background-color: red;
+}
 body {
 	color: white;
 	font-family: 'Karla', sans-serif;
 	text-align: center;
 	padding: 5%;
-	background: #1D976C;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to bottom, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to bottom, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	background-repeat: no-repeat;
+	background: #000046;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to bottom, #1CB5E0, #000046);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to bottom, #1CB5E0, #000046); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	
 }
 html {
 	height:100%;
@@ -33,21 +39,43 @@ html {
 	overflow-x: hidden;
 	height:500px;
 }
-.akno {
-	position: absolute;
-	bottom: 7.5px;
-	font-size:.1vw;
+.akno{
+	font-size:8px;
 }
 .img {
 	max-width:27.5%;
 	height:auto;
 }
+input[type=text] {
+	background-color: #F5FCF5;
+	border: none;
+	color: black;
+	border-radius: 4px;
+}
+.votePad {
+	margin-left: 5%;
+}
+.videoTxtColor {
+	color: white;
+}
 .videoSelect:hover {
 	background-color: gray;
 }
-.upvote.active {
-	background-color: green;
+::-webkit-scrollbar {
+	width: 10px;
 }
-.downvote.active {
-	background-color: red;
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }

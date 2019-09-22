@@ -26,10 +26,10 @@ function Session(options) {
 }
 Session.prototype.addMember = function (ws) { this.members.set(ws, new MemberInfo({ws: ws})); };
 Session.prototype.addRequest = function (member, videoReq) {
-	if (member.videoRequest != null) {
-		this.resetVote(member, videoReq);
-		if (this.votes.has(videoReq) && this.votes.get(videoReq) <= 0) {
-			this.votes.delete(videoReq);
+	if (member.videoRequest !== null) {
+		this.resetVote(member, member.videoRequest);
+		if (this.votes.has(member.videoRequest) && this.votes.get(member.videoRequest) <= 0) {
+			this.votes.delete(member.videoRequest);
 		}
 	}
 	member.videoRequest = videoReq;
