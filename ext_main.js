@@ -12,7 +12,7 @@ let curVideo = undefined;
 let domElems = {};
 
 let code = undefined;
-let ws = new WebSocket('ws://localhost:3000/'); // TODO change when heroku's up
+let ws = new WebSocket('ws://deemos.herokuapp.com/');
 
 let ytWind = undefined;
 
@@ -36,7 +36,7 @@ ws.addEventListener('message', event => {
 				ytWind = undefined;
 			}
 			if (!ytWind) {
-				ytWind = window.open('localhost:3000/yt/'+curVideo, '_blank');
+				ytWind = window.open('https://deemos.herokuapp.com/yt/'+curVideo, '_blank');
 			} else {
 				ytWind.postMessage({videoId: curVideo}, '*');
 			}
