@@ -143,6 +143,8 @@ DeemosInstance.prototype.initWS = function (wss) {
 						session.addMember(ws);
 						this.memberToCode.set(ws, obj.code);
 						ws.send(JSON.stringify({type: SocketCodes.JOIN_SERVER, code: obj.code}));
+						let member = session.members.get(ws);
+						session.sendVoteUpdates(member, this.idToInfo);
 					} else {
 						ws.send(JSON.stringify({type: SocketCodes.EVICT, reason: 'Invalid code'}));
 					}
