@@ -9,7 +9,7 @@
     },
 	"browser_action": {
 		"default_title":"Youtube Extension",
-        "default_icon":"Test.png",
+        "default_icon":"Deemos_favicon.png",
         "default_popup": "popup.html"
 	},
 	"permissions":[
