@@ -26,6 +26,10 @@ function DeemosInstance() {
 	app.use(express.static(path.join(__dirname, 'public')));
 	
 	app.use('/', indexRouter);
+	app.get('/yt/:videoId', (req, res) => {
+		res.locals.videoId = req.params.videoId;
+		res.render('yt');
+	});
 
 	// catch 404 and forward to error handler
 	app.use((req, res, next) => {
@@ -170,6 +174,13 @@ DeemosInstance.prototype.initWS = function (wss) {
 					break;
 				case SocketCodes.REQUEST_LEAVE:
 					this.cleanup(ws, true);
+					break;
+				case SocketCodes.REQUEST_NEXT_VIDEO:
+					session = this.codeToSessions[obj.code];
+					if (session && session.host === ws) {
+						session.isRequestingNext = true;
+						session.advanceAndSendVideo();
+					}
 					break;
 			}
 		});

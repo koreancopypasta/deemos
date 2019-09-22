@@ -21,6 +21,8 @@ function Session(options) {
 	 * @type {Map<string, number>}
 	 */
 	this.votes = new Map();
+	
+	this.isRequestingNext = false;
 }
 Session.prototype.addMember = function (ws) { this.members.set(ws, new MemberInfo({ws: ws})); };
 Session.prototype.addRequest = function (member, videoReq) {
@@ -48,6 +50,7 @@ Session.prototype.vote = function (member, videoReq, val) {
 	}
 	this.votes.set(videoReq, this.votes.get(videoReq) + val);
 	member.votes.set(videoReq, val);
+	this.advanceAndSendVideo();
 };
 Session.prototype.evictMember = function (member) {
 	for (let video of member.votes.keys()) {
@@ -59,6 +62,7 @@ Session.prototype.evictMember = function (member) {
 	this.members.delete(member.ws);
 };
 Session.prototype.advanceVideo = function () {
+	if (!this.isRequestingNext) return null;
 	let winningVideo = null, winningVotes = -Infinity;
 	for (let [video, votes] of this.votes) {
 		if (winningVotes < votes) {
@@ -67,6 +71,7 @@ Session.prototype.advanceVideo = function () {
 		}
 	}
 	if (winningVideo !== null) {
+		this.isRequestingNext = false;
 		for (let member of this.members.values()) {
 			this.resetVote(member, winningVideo);
 			if (member.videoRequest === winningVideo) {
@@ -76,6 +81,12 @@ Session.prototype.advanceVideo = function () {
 		this.votes.delete(winningVideo);
 	}
 	return winningVideo;
+};
+Session.prototype.advanceAndSendVideo = function () {
+	let winningVideo = this.advanceVideo();
+	if (winningVideo !== null) {
+		this.host.send(JSON.stringify({type: SocketCodes.REQUEST_NEXT_VIDEO, videoId: winningVideo}));
+	}
 };
 Session.prototype.sendVoteUpdates = function (member, idToInfo) {
 	member.ws.send(JSON.stringify({

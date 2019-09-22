@@ -102,9 +102,6 @@ ws.addEventListener("message", e => {
 			if (obj.reason) alert(obj.reason);
 			break;
 		case SocketCodes.VOTE_UPDATES:
-			console.log(obj.votes); // TODO remove
-			console.log(obj.memberVotes);
-			
 			trendingList.innerHTML = '';
 			
 			for (let tuple of obj.votes) {

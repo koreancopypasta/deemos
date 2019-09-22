@@ -10,5 +10,6 @@ module.exports = {
 	VIDEO_REQUEST: 'VIDEO_REQUEST', // videoId, videoInfo
 	INCREMENT_VOTE: 'INCREMENT_VOTE', // videoId, isUpvote
 	VOTE_UPDATES: 'VOTE_UPDATES', // votes, memberVotes
-	REQUEST_LEAVE: 'REQUEST_LEAVE'
+	REQUEST_LEAVE: 'REQUEST_LEAVE',
+	REQUEST_NEXT_VIDEO: 'REQUEST_NEXT_VIDEO', // videoId
 };
