@@ -115,11 +115,31 @@ ws.addEventListener("message", e => {
 				
 				newDiv.className = "row searchPad";
 				
-				let newText = document.createElement("div");
-				newText.className = "col-sm";
-				newText.innerHTML = tuple[2].title;
-				
-				newDiv.appendChild(newText);
+                let newVote = document.createElement("div");
+
+                let newUpVote = document.createElement("button");
+                let newDownVote = document.createElement("button");
+
+                newUpVote.className = "btn btn-success"
+                newUpVote.innerText = "Up"
+                
+                newDownVote.className = "btn btn-danger"
+                newDownVote.innerText = "Down"
+
+                // newVote.className = "col-sm";
+                newVote.appendChild(newUpVote);
+                newVote.appendChild(newDownVote);
+                
+                let newText = document.createElement("div");
+                newText.className = "col-sm";
+                
+                let newTextTitle = document.createElement("div");
+                newTextTitle.innerHTML = tuple[2].title;
+                
+                newText.appendChild(newTextTitle);
+                newText.appendChild(newVote);
+
+                newDiv.appendChild(newText);
 				
 				let image = document.createElement("img");
 				image.src = tuple[2].thumbnail;
