@@ -16,7 +16,7 @@
 		"mustache-express": "^1.3.0",
 		"nocache": "^2.1.0",
 		"timsort": "^0.3.0",
-		"ws": "^7.1.2",
+		"ws": "^7.4.6",
 		"xhr-promise": "^2.0.0"
 	},
 	"devDependencies": {
